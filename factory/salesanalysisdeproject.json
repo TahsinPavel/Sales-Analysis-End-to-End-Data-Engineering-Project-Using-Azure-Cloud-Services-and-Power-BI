@@ -1,0 +1,9 @@
+{
+	"name": "salesanalysisdeproject",
+	"location": "southeastasia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "3c542d41-04c6-49d1-9059-468b9a77e842",
+		"tenantId": "3d94fd6f-0755-49cc-a8ad-0b71b1db3ea0"
+	}
+}
