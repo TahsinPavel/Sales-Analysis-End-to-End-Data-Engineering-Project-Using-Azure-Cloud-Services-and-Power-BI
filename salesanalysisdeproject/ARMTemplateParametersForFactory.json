@@ -1,0 +1,21 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "salesanalysisdeproject"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
+		"onpremsqlserver_connectionString": {
+			"value": "Integrated Security=False;Data Source=TAHSIN\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2017;User ID=TAHSIN"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://salesdatadeproject.dfs.core.windows.net/"
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"value": "https://salesprojectkey.vault.azure.net/"
+		}
+	}
+}
