@@ -1,0 +1,14 @@
+{
+	"name": "SynapsesqlserverDB",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=salesanalysis-ondemand.sql.azuresynapse.net;Initial Catalog=transformed3_DB"
+		},
+		"connectVia": {
+			"referenceName": "AutoResolveIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
