@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"workspaceName": {
+			"value": "salesanalysis"
+		},
+		"AzureDataLakeStorage1_accountKey": {
+			"value": ""
+		},
+		"AzureDatabricks1_accessToken": {
+			"value": ""
+		},
+		"SynapsesqlserverDB_connectionString": {
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=salesanalysis-ondemand.sql.azuresynapse.net;Initial Catalog=transformed3_DB"
+		},
+		"onpremsqlserver_connectionString": {
+			"value": "Integrated Security=False;Data Source=TAHSIN\\SQLEXPRESS;Initial Catalog=AdventureWorksLT2017;User ID=TAHSIN"
+		},
+		"salesanalysis-WorkspaceDefaultSqlServer_connectionString": {
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:salesanalysis.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
+		},
+		"AzureDataLakeStorage1_properties_typeProperties_url": {
+			"value": "https://salesdatadeproject.dfs.core.windows.net/"
+		},
+		"AzureKeyVault1_properties_typeProperties_baseUrl": {
+			"value": "https://salesprojectkey.vault.azure.net/"
+		},
+		"salesanalysis-WorkspaceDefaultStorage_properties_typeProperties_url": {
+			"value": "https://salesdatadeproject.dfs.core.windows.net"
+		}
+	}
+}
