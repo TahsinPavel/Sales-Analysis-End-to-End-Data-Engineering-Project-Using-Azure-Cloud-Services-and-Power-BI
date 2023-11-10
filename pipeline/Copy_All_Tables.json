@@ -112,6 +112,60 @@
 						}
 					]
 				}
+			},
+			{
+				"name": "Tramsfomation Part 1",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "For Each Table",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/tahsinpavel@gmail.com/Sales-Analysis-End-to-End-Data-Engineering-Project-Using-Azure-Data-Cloud-Services-and-Power-BI/Data Transformation/Data Transfprmation part 1"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks1",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "Transformation Part 2",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "Tramsfomation Part 1",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/tahsinpavel@gmail.com/Sales-Analysis-End-to-End-Data-Engineering-Project-Using-Azure-Data-Cloud-Services-and-Power-BI/Data Transformation/Data Transformation part 2"
+				},
+				"linkedServiceName": {
+					"referenceName": "AzureDatabricks1",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"annotations": []
