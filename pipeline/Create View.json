@@ -1,5 +1,5 @@
 {
-	"name": "Pipeline 1",
+	"name": "Create View",
 	"properties": {
 		"activities": [
 			{
@@ -30,6 +30,56 @@
 					"formatSettings": {
 						"type": "BinaryReadSettings"
 					}
+				}
+			},
+			{
+				"name": "For Each Table Name",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Get Tables Name",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get Tables Name').output.childItems",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Stored procedure1",
+							"type": "SqlServerStoredProcedure",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "0.12:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"storedProcedureName": "[dbo].[CreateSQLview_transformed2]",
+								"storedProcedureParameters": {
+									"ViewName": {
+										"value": {
+											"value": "@item().Name",
+											"type": "Expression"
+										},
+										"type": "String"
+									}
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "SynapsesqlserverDB",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
 				}
 			}
 		],
