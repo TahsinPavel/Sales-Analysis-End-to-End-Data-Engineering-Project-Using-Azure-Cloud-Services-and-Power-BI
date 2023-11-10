@@ -7,10 +7,6 @@
 			"metadata": "Workspace name",
 			"defaultValue": "salesanalysis"
 		},
-		"AzureDataLakeStorage1_accountKey": {
-			"type": "secureString",
-			"metadata": "Secure string for 'accountKey' of 'AzureDataLakeStorage1'"
-		},
 		"AzureDatabricks1_accessToken": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accessToken' of 'AzureDatabricks1'"
@@ -30,9 +26,10 @@
 			"metadata": "Secure string for 'connectionString' of 'salesanalysis-WorkspaceDefaultSqlServer'",
 			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:salesanalysis.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
 		},
-		"AzureDataLakeStorage1_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://salesdatadeproject.dfs.core.windows.net/"
+		"serverlesssqlDB_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'serverlesssqlDB'",
+			"defaultValue": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=salesanalysis-ondemand.sql.azuresynapse.net;Initial Catalog=transformed2_DB"
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"type": "string",
@@ -253,7 +250,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataset": {
-								"referenceName": "transformed2tables",
+								"referenceName": "transformed2tablesnew",
 								"type": "DatasetReference",
 								"parameters": {}
 							},
@@ -271,7 +268,7 @@
 						}
 					},
 					{
-						"name": "For Each Table Name",
+						"name": "For EachT able Name",
 						"type": "ForEach",
 						"dependsOn": [
 							{
@@ -289,7 +286,7 @@
 							},
 							"activities": [
 								{
-									"name": "Stored procedure1",
+									"name": "Stored procedure",
 									"type": "SqlServerStoredProcedure",
 									"dependsOn": [],
 									"policy": {
@@ -313,7 +310,7 @@
 										}
 									},
 									"linkedServiceName": {
-										"referenceName": "SynapsesqlserverDB",
+										"referenceName": "serverlesssqlDB",
 										"type": "LinkedServiceReference"
 									}
 								}
@@ -327,8 +324,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/datasets/transformed2tables')]",
-				"[concat(variables('workspaceId'), '/linkedServices/SynapsesqlserverDB')]"
+				"[concat(variables('workspaceId'), '/datasets/transformed2tablesnew')]",
+				"[concat(variables('workspaceId'), '/linkedServices/serverlesssqlDB')]"
 			]
 		},
 		{
@@ -406,7 +403,7 @@
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage1",
+					"referenceName": "salesanalysis-WorkspaceDefaultStorage",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
@@ -421,7 +418,7 @@
 				"schema": []
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/linkedServices/AzureDataLakeStorage1')]"
+				"[concat(variables('workspaceId'), '/linkedServices/salesanalysis-WorkspaceDefaultStorage')]"
 			]
 		},
 		{
@@ -430,7 +427,7 @@
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "AzureDataLakeStorage1",
+					"referenceName": "salesanalysis-WorkspaceDefaultStorage",
 					"type": "LinkedServiceReference"
 				},
 				"parameters": {
@@ -498,7 +495,7 @@
 				]
 			},
 			"dependsOn": [
-				"[concat(variables('workspaceId'), '/linkedServices/AzureDataLakeStorage1')]"
+				"[concat(variables('workspaceId'), '/linkedServices/salesanalysis-WorkspaceDefaultStorage')]"
 			]
 		},
 		{
@@ -622,21 +619,27 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('workspaceName'), '/AzureDataLakeStorage1')]",
-			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"name": "[concat(parameters('workspaceName'), '/transformed2tablesnew')]",
+			"type": "Microsoft.Synapse/workspaces/datasets",
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
+				"linkedServiceName": {
+					"referenceName": "salesanalysis-WorkspaceDefaultStorage",
+					"type": "LinkedServiceReference"
+				},
 				"annotations": [],
-				"type": "AzureBlobFS",
+				"type": "Binary",
 				"typeProperties": {
-					"url": "[parameters('AzureDataLakeStorage1_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('AzureDataLakeStorage1_accountKey')]"
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "SalesLT",
+						"fileSystem": "transformeddata2"
 					}
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/linkedServices/salesanalysis-WorkspaceDefaultStorage')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('workspaceName'), '/AzureDatabricks1')]",
@@ -760,6 +763,25 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('workspaceName'), '/serverlesssqlDB')]",
+			"type": "Microsoft.Synapse/workspaces/linkedServices",
+			"apiVersion": "2019-06-01-preview",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": "[parameters('serverlesssqlDB_connectionString')]"
+				},
+				"connectVia": {
+					"referenceName": "AutoResolveIntegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('workspaceId'), '/integrationRuntimes/AutoResolveIntegrationRuntime')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('workspaceName'), '/AutoResolveIntegrationRuntime')]",
 			"type": "Microsoft.Synapse/workspaces/integrationRuntimes",
 			"apiVersion": "2019-06-01-preview",
@@ -805,12 +827,12 @@
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
 				"content": {
-					"query": "USE transformed3_DB\nGO\n\nCREATE OR ALTER PROC CreateSQLview_transformed2 @ViewName NVARCHAR(100)\nAS\nBEGIN \n\nDECLARE @statement VARCHAR(MAX)\n    \n    SET @statement = N'CREATE OR ALTER VIEW ' + @ViewName + ' As\n        SELECT *\n        FROM\n        OPENROWSET(\n        BULK ''https://salesdatadeproject.dfs.core.windows.net/transformeddata2/SalesLT/'',\n        FORMAT = ''DELTA''\n    ) AS [result] \n    '\n\nEXEC (@statement)\n\nEND\nGO\n\n",
+					"query": "USE transformed2_DB\nGO\n\nCREATE OR ALTER PROC CreateSQLview_transformed2 @ViewName NVARCHAR(100)\nAS\nBEGIN \n\nDECLARE @statement VARCHAR(MAX)\n    \n    SET @statement = N'CREATE OR ALTER VIEW ' + @ViewName + ' As\n        SELECT *\n        FROM\n        OPENROWSET(\n        BULK ''https://salesdatadeproject.dfs.core.windows.net/transformeddata2/SalesLT/'',\n        FORMAT = ''DELTA''\n    ) AS [result] \n    '\n\nEXEC (@statement)\n\nEND\nGO",
 					"metadata": {
 						"language": "sql"
 					},
 					"currentConnection": {
-						"databaseName": "transformed3_DB",
+						"databaseName": "transformed2_DB",
 						"poolName": "Built-in"
 					},
 					"resultLimit": 5000

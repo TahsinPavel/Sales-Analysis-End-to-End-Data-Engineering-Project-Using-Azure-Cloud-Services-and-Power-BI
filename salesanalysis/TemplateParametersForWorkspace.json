@@ -5,9 +5,6 @@
 		"workspaceName": {
 			"value": "salesanalysis"
 		},
-		"AzureDataLakeStorage1_accountKey": {
-			"value": ""
-		},
 		"AzureDatabricks1_accessToken": {
 			"value": ""
 		},
@@ -20,8 +17,8 @@
 		"salesanalysis-WorkspaceDefaultSqlServer_connectionString": {
 			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=tcp:salesanalysis.sql.azuresynapse.net,1433;Initial Catalog=@{linkedService().DBName}"
 		},
-		"AzureDataLakeStorage1_properties_typeProperties_url": {
-			"value": "https://salesdatadeproject.dfs.core.windows.net/"
+		"serverlesssqlDB_connectionString": {
+			"value": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=salesanalysis-ondemand.sql.azuresynapse.net;Initial Catalog=transformed2_DB"
 		},
 		"AzureKeyVault1_properties_typeProperties_baseUrl": {
 			"value": "https://salesprojectkey.vault.azure.net/"
