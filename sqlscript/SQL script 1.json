@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 1",
+	"properties": {
+		"content": {
+			"query": "USE transformed2_DB\nGO\n\nCREATE OR ALTER PROC CreateSQLview_transformed2 @ViewName NVARCHAR(100)\nAS\nBEGIN \n\nDECLARE @statement VARCHAR(MAX)\n    \n    SET @statement = N'CREATE OR ALTER VIEW ' + @ViewName + ' As\n        SELECT *\n        FROM\n        OPENROWSET(\n        BULK ''https://salesdatadeproject.dfs.core.windows.net/transformeddata2/SalesLT/'',\n        FORMAT = ''DELTA''\n    ) AS [result] \n    '\n\nEXEC (@statement)\n\nEND\nGO",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "transformed2_DB",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
