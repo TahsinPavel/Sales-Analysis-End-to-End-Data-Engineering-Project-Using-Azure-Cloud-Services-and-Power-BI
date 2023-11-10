@@ -1,6 +1,10 @@
 {
 	"name": "Address_Parquet",
 	"properties": {
+		"linkedServiceName": {
+			"referenceName": "salesanalysis-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
 		"annotations": [],
 		"type": "Parquet",
 		"typeProperties": {

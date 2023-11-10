@@ -1,6 +1,10 @@
 {
 	"name": "ParquetTables",
 	"properties": {
+		"linkedServiceName": {
+			"referenceName": "salesanalysis-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
 		"parameters": {
 			"schemaname": {
 				"type": "string"
