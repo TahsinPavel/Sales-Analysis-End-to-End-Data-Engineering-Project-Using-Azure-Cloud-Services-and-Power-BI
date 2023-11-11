@@ -827,7 +827,7 @@
 			"apiVersion": "2019-06-01-preview",
 			"properties": {
 				"content": {
-					"query": "USE transformed2_DB\nGO\n\nCREATE OR ALTER PROC CreateSQLview_transformed2 @ViewName NVARCHAR(100)\nAS\nBEGIN \n\nDECLARE @statement VARCHAR(MAX)\n    \n    SET @statement = N'CREATE OR ALTER VIEW ' + @ViewName + ' As\n        SELECT *\n        FROM\n        OPENROWSET(\n        BULK ''https://salesdatadeproject.dfs.core.windows.net/transformeddata2/SalesLT/'',\n        FORMAT = ''PARQUET''\n    ) AS [result] \n    '\n\nEXEC (@statement)\n\nEND\nGO",
+					"query": "USE transformed2_DB\nGO\n\nCREATE OR ALTER PROC CreateSQLview_transformed2 @ViewName NVARCHAR(100)\nAS\nBEGIN \n\nDECLARE @statement VARCHAR(MAX)\n    \n    SET @statement = N'CREATE OR ALTER VIEW ' + @ViewName + ' As\n        SELECT *\n        FROM\n        OPENROWSET(\n        BULK ''https://salesdatadeproject.dfs.core.windows.net/transformeddata2/SalesLT/'',\n        FORMAT = ''DELTA''\n    ) AS [result] \n    '\n\nEXEC (@statement)\n\nEND\nGO",
 					"metadata": {
 						"language": "sql"
 					},
